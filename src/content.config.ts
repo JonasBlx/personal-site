@@ -3,7 +3,8 @@ import { glob } from 'astro/loaders';
 import { z } from 'zod';
 
 const experiences = defineCollection({
-  loader: glob({ base: './src/content/experiences', pattern: '**/*.md' }),
+  // `[^_]*` keeps underscore-prefixed files (e.g. _template.md) out of the build.
+  loader: glob({ base: './src/content/experiences', pattern: '**/[^_]*.md' }),
   schema: z.object({
     company: z.string(),
     role: z.string(),
