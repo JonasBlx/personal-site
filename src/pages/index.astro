@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ExperienceCard from '../components/ExperienceCard.astro';
+import { SITE } from '../consts';
+
+const experiences = (await getCollection('experiences')).sort((a, b) =>
+  b.data.startDate.localeCompare(a.data.startDate),
+);
+---
+
+<BaseLayout>
+  <section class="mx-auto max-w-3xl px-6 py-24">
+    <h1 class="text-ink text-4xl font-bold tracking-tight sm:text-5xl">{SITE.name}</h1>
+    <p class="text-muted mt-4 text-lg">Machine Learning Engineer / Data Scientist.</p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a
+        href="#contact"
+        class="bg-accent-strong hover:bg-accent rounded-lg px-4 py-2 font-medium text-white transition-colors"
+        >Get in touch</a
+      >
+      <a
+        href={SITE.github}
+        rel="noopener"
+        class="border-border text-ink hover:border-accent hover:text-accent rounded-lg border px-4 py-2 font-medium transition-colors"
+        >GitHub</a
+      >
+    </div>
+  </section>
+
+  <section id="experience" class="border-border mx-auto max-w-3xl scroll-mt-20 border-t px-6 py-16">
+    <h2 class="text-ink text-2xl font-semibold tracking-tight">Experience</h2>
+    {
+      experiences.length > 0 ? (
+        <div class="mt-8 space-y-6">
+          {experiences.map((entry) => (
+            <ExperienceCard entry={entry} />
+          ))}
+        </div>
+      ) : (
+        <p class="text-muted mt-8">
+          No experience entries yet — add Markdown files in{' '}
+          <code class="text-faint font-mono text-sm">src/content/experiences/</code>.
+        </p>
+      )
+    }
+  </section>
+
+  <section id="contact" class="border-border mx-auto max-w-3xl scroll-mt-20 border-t px-6 py-16">
+    <h2 class="text-ink text-2xl font-semibold tracking-tight">Contact</h2>
+    <p class="text-muted mt-4">
+      Reach me at{' '}
+      <a href={`mailto:${SITE.email}`} class="text-accent hover:underline">{SITE.email}</a>.
+    </p>
+  </section>
+</BaseLayout>
