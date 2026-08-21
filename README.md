@@ -164,11 +164,45 @@ meta and tags).
 
 ---
 
+## Git workflow
+
+`main` is the stable branch — it is what Cloudflare Pages deploys, so every
+commit on it should build. Development happens on `dev`, one phase at a time,
+and lands on `main` through a merge commit at the end of each phase.
+
+```bash
+git switch dev                  # work here
+# … commits, following Conventional Commits …
+
+npm run format:check && npm run check && npm run lint && npm run build
+
+git switch main
+git merge --no-ff dev -m "Merge branch 'dev': Phase N — <summary>"
+git switch dev
+git merge --ff-only main        # bring dev back in sync
+```
+
+`--no-ff` is what keeps the graph readable: each phase shows up as its own
+bubble instead of a flat line. It is set as the default for merges into `main`
+via `git config branch.main.mergeoptions --no-ff`, so a forgotten flag still
+produces a merge commit.
+
+Inspect the result with:
+
+```bash
+git log --graph --oneline --all
+```
+
+Conventional Commits prefixes in use: `feat`, `fix`, `docs`, `chore`, `refactor`,
+`style`, `perf`, `test`.
+
+---
+
 ## Roadmap
 
 Development is phased — see **`ROADMAP.md`**. Current status:
 
-- [x] **Phase 0** — Astro scaffold, design tokens, Experience section (3 roles)
+- [x] **Phase 0** — Astro scaffold, design tokens, layout, Experience collection (content still to write)
 - [ ] **Phase 1** — MVP online: skills, education, certifications, CV PDF, contact form
 - [ ] **Phase 2** — Projects: filterable index + detail pages
 - [ ] **Phase 3** — Interactive visualizations
