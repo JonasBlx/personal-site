@@ -2,10 +2,10 @@
 
 Personal website and extended CV for **Jonas Balandraux** (ML Engineer / Data
 Scientist). A static site built with [Astro](https://astro.build) and Tailwind
-CSS, deployed to **Cloudflare Pages** — free and always online, no server to
+CSS, deployed to **Cloudflare Workers** — free and always online, no server to
 keep running.
 
-> **Live:** _add your `*.pages.dev` or custom domain here once deployed._
+> **Live:** _add your `*.workers.dev` or custom domain here once deployed._
 
 ---
 
@@ -147,26 +147,31 @@ meta and tags).
 
 ---
 
-## Deployment — Cloudflare Pages
+## Deployment — Cloudflare Workers
+
+The site deploys as a **Worker serving static assets** (Cloudflare's current
+recommendation for new projects; Pages is in maintenance mode).
 
 1. Push this repo to GitHub.
-2. Cloudflare dashboard → **Workers & Pages → Create → Pages → Connect to Git**,
-   select the repo.
+2. Cloudflare dashboard → **Compute (Workers & Pages) → Create → Import a
+   repository**, select the repo.
 3. Build settings:
-   - **Framework preset:** Astro
    - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
-4. Deploy. You get a free `*.pages.dev` URL, always online, redeployed on every
-   `git push`.
-5. **Custom domain (recommended before sharing):** add it under the project's
-   **Custom domains** tab (free), then set the final URL in `astro.config.mjs`
+   - **Deploy command:** `npx wrangler deploy` (production branch)
+4. `wrangler.jsonc` tells Wrangler what to upload — `assets.directory` points at
+   `dist`, and `not_found_handling` makes it serve the built `404.html`. Its
+   `name` must match the Worker name in the dashboard.
+5. Deploy. You get a free `*.workers.dev` URL, redeployed on every push to
+   `main`; pushes to `dev` upload a preview version instead.
+6. **Custom domain (recommended before sharing):** add it under the Worker's
+   **Domains & Routes** tab (free), then set the final URL in `astro.config.mjs`
    (`site:`) so canonical / Open Graph / sitemap are correct.
 
 ---
 
 ## Git workflow
 
-`main` is the stable branch — it is what Cloudflare Pages deploys, so every
+`main` is the stable branch — it is what Cloudflare deploys, so every
 commit on it should build. Development happens on `dev`, one phase at a time,
 and lands on `main` through a merge commit at the end of each phase.
 

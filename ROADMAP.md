@@ -15,7 +15,7 @@ Légende : `[x]` fait · `[ ]` à faire · ⏱ estimation indicative (dev solo, 
 - [x] Tokens de design (mode sombre) dans `global.css`
 - [x] `BaseLayout` (meta, OG, fond) + `Header`
 - [x] Collection `experiences` (schéma Zod) + `_template.md`
-- [ ] Rédiger les 3 expériences pro (anglais) dans `src/content/experiences/`
+- [x] Rédiger les expériences pro (anglais) dans `src/content/experiences/`
 - [x] `ExperienceCard` + timeline sur la Home
 - [x] `Footer`, page `404`, `robots.txt`, sitemap
 - [x] Outillage : ESLint, Prettier, `astro check`
@@ -23,7 +23,7 @@ Légende : `[x]` fait · `[ ]` à faire · ⏱ estimation indicative (dev solo, 
 
 **Definition of done :** `npm run build` passe, page rendue correcte. ✅
 
-**➡️ Prochaine action concrète :** mettre le repo sur GitHub et brancher Cloudflare Pages (voir Phase 1.0) pour être en ligne dès maintenant.
+**➡️ Prochaine action concrète :** brancher Cloudflare Workers (voir Phase 1.0) pour être en ligne dès maintenant.
 
 ---
 
@@ -33,9 +33,10 @@ Légende : `[x]` fait · `[ ]` à faire · ⏱ estimation indicative (dev solo, 
 
 ### 1.0 Mise en ligne
 
-- [ ] Pousser le repo sur GitHub
-- [ ] Connecter Cloudflare Pages (preset Astro, `npm run build`, sortie `dist`)
-- [ ] Vérifier le déploiement sur l'URL `*.pages.dev`
+- [x] Pousser le repo sur GitHub
+- [ ] Connecter Cloudflare Workers (`wrangler.jsonc` → assets `dist`, deploy `npx wrangler deploy`)
+- [ ] Vérifier le déploiement sur l'URL `*.workers.dev`
+- [ ] Mettre `site:` à jour dans `astro.config.mjs` avec l'URL réelle
 
 ### 1.1 Structure & polish de base
 
